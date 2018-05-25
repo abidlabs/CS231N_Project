@@ -1,1 +1,4 @@
 MNIST_data/*
+
+.ipynb_checkpoints/*
+logs/*
