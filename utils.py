@@ -4,7 +4,7 @@ from matplotlib import rcParams
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
 
-def get_variable(shape, initial=None):
+def get_variable(shape=None, initial=None):
     if initial is None:
         initial = tf.random_normal(shape)
         return tf.Variable(initial)
@@ -32,17 +32,13 @@ def regularize(loss, weights, reg_kind=None, reg_value=None):
     if reg_kind is None:
         return loss
     elif reg_kind=='L1':
-        print("Adding L1 regularization")
         return loss + reg_value*tf.reduce_mean(tf.abs(weights))
     elif reg_kind=='HZ':    
-        print("Adding HZ regularization")
         return loss + reg_value*HZ_reg(weights)
     elif reg_kind=='DZ':    
-        print("Adding DZ regularization")
         return loss + reg_value*DZ_reg(weights)
     elif reg_kind=='DZ+L1':    
-        print("Adding DZ+L1 regularization")
-        return loss + reg_value[0]*DZ_reg(weights)+reg_value[1]*tf.reduce_mean(tf.abs(weights))
+        return loss + reg_value[0]*DZ_reg(weights)+reg_value[1]*tf.reduce_mean(tf.square(weights))
     else:
         raise ValueError("Invalid value for parameter: reg_kind")
 
